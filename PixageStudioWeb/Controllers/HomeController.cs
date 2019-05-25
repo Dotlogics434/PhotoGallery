@@ -4,15 +4,25 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PixageStudioWeb.Data;
 using PixageStudioWeb.Models;
 
 namespace PixageStudioWeb.Controllers
 {
     public class HomeController : Controller
     {
+        ApplicationDbContext _context;
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        
+     
         public IActionResult Index()
         {
-            return View();
+            var Img = _context.ImagePool.ToList();
+            return View(Img.ToList());
+
         }
 
         public IActionResult About()

@@ -12576,11 +12576,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Shahid\\source\\repos\\PixageStudioWeb\\PixageStudioWeb\\PixageStudioWeb.csproj",
+      "projectUniqueName": "D:\\Projects\\git\\PixageStudio\\PixageStudioWeb\\PixageStudioWeb.csproj",
       "projectName": "PixageStudioWeb",
-      "projectPath": "C:\\Users\\Shahid\\source\\repos\\PixageStudioWeb\\PixageStudioWeb\\PixageStudioWeb.csproj",
+      "projectPath": "D:\\Projects\\git\\PixageStudio\\PixageStudioWeb\\PixageStudioWeb.csproj",
       "packagesPath": "C:\\Users\\Shahid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Shahid\\source\\repos\\PixageStudioWeb\\PixageStudioWeb\\obj\\",
+      "outputPath": "D:\\Projects\\git\\PixageStudio\\PixageStudioWeb\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\ProgramData\\Xamarin\\NuGet\\",

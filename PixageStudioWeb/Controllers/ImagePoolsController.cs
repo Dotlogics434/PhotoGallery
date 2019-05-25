@@ -28,6 +28,7 @@ namespace PixageStudioWeb.Controllers
         }
 
 
+
         // GET: ImagePools/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,7 +55,7 @@ namespace PixageStudioWeb.Controllers
                 return Content("file not selected");
 
             var path = Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot",
+                                    "wwwroot/Uploads",
                                     file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
@@ -76,7 +77,7 @@ namespace PixageStudioWeb.Controllers
 
             var path = Path.Combine(
                            Directory.GetCurrentDirectory(),
-                           "wwwroot", filename);
+                           "wwwroot/Uploads", filename);
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))

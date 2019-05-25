@@ -33,13 +33,14 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-
+                    <li>
                     <secure-content asp-area="" asp-controller="Role" asp-action="Index">
-                        <li><a asp-area="" asp-controller="Role" asp-action="Index">Role</a></li>
-                    </secure-content>
+                        <a asp-area="" asp-controller="Role" asp-action="Index">Role</a>
+                    </secure-content></li>
+                <li>
                     <secure-content asp-area="" asp-controller="Access" asp-action="Index">
-                        <li><a asp-area="" asp-controller="Access" asp-action="Index">Access</a></li>
-                    </secure-content>
+                        <a asp-area="" asp-controller="Access" asp-action="Index">Access</a>
+                    </secure-content></li>
                 </ul><partial name="_LoginPartial" />
             </div>
         </div>

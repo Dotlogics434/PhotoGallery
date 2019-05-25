@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +14,6 @@ namespace PixageStudioWeb.Models
         public string AltName { get; set; }
         [DisplayName("Path")]
         public string ImagePath { get; set; }
-        [DisplayName("Category")]
         public string Genre { get; set; }
     }
 }
