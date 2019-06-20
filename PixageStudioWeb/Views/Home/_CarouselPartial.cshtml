@@ -1,0 +1,93 @@
+﻿<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 12px;
+        background: #ededed;
+    }
+
+    .example-desc {
+        margin: 3px 0;
+        padding: 5px;
+    }
+
+    #carousel {
+        width: 960px;
+        border: 1px solid #222;
+        height: 300px;
+        background: #FFF;
+    }
+
+        #carousel img {
+            visibility: hidden; /* hide images until carousel can handle them */
+            cursor: pointer; /* otherwise it's not as obvious items can be clicked */
+            height:initial;
+            width:initial;
+        }
+
+    .split-left {
+        width: 450px;
+        float: left;
+    }
+
+    .split-right {
+        width: 400px;
+        float: left;
+        margin-left: 10px;
+    }
+
+    #callback-output {
+        height: 250px;
+        overflow: scroll;
+    }
+
+    textarea#newoptions {
+        width: 430px;
+    }
+</style>
+<div id="carousel">
+    @foreach (ImagePool item in ViewBag.Carousel)
+    {
+        <a href="#"><img src="~/images/@Html.DisplayFor(modelItem=> item.AltName)" class="image-carousel" style="min-height:700px; min-width:600px;"/></a>
+    }
+</div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Plugin/js/jquery.waterwheelCarousel.js"></script>
+<script type="text/javascript">
+      $(document).ready(function () {
+        var carousel = $("#carousel").waterwheelCarousel({
+          flankingItems: 3,
+          movingToCenter: function ($item) {
+            $('#callback-output').prepend('movingToCenter: ' + $item.attr('class') + '<br/>');
+          },
+          movedToCenter: function ($item) {
+            $('#callback-output').prepend('movedToCenter: ' + $item.attr('class') + '<br/>');
+          },
+          movingFromCenter: function ($item) {
+            $('#callback-output').prepend('movingFromCenter: ' + $item.attr('class') + '<br/>');
+          },
+          movedFromCenter: function ($item) {
+            $('#callback-output').prepend('movedFromCenter: ' + $item.attr('class') + '<br/>');
+          },
+          clickedCenter: function ($item) {
+            $('#callback-output').prepend('clickedCenter: ' + $item.attr('class') + '<br/>');
+          }
+        });
+
+        $('#prev').bind('click', function () {
+          carousel.prev();
+          return false
+        });
+
+        $('#next').bind('click', function () {
+          carousel.next();
+          return false;
+        });
+
+        $('#reload').bind('click', function () {
+          newOptions = eval("(" + $('#newoptions').val() + ")");
+          carousel.reload(newOptions);
+          return false;
+        });
+
+      });
+</script>

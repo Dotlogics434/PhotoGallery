@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        text-align: center;
+        background-color: #f1f1f1;
+        height: 170px;
+    }
+    img{
+        max-height:100px;
+        max-width:100px;
+    }
+  .card:hover {
+            background-color: gold;
+        }
+
+    .column {
+        float: left;
+        width: 25%;
+        padding: 0 10px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .row {
+        margin: 0 80px;
+    }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+</style>
+<h2>Dashboard</h2>
+<div class="container">
+
+    <div class="row tab">
+
+        <div class="column">
+            <a href="@Url.Action("Index","Admin")">
+                <div class="card">
+                    Manage Users
+                    <div id="icon"><img src="~/assets/ico/manage_users.png"></div>
+                    <span class="glyphicon glyphicon-user"></span>
+                </div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="@Url.Action("Index", "ImagePools")">
+                <div class="card">
+                    <div id="icon"><img src="~/assets/ico/manage_gallery.png"></div>
+                    Manage Galleries
+                </div>
+            </a>
+
+        </div>
+        <div class="column">
+            <a href="@Url.Action("Create","Categories")">
+                <div class="card">
+                    Manage Content
+                    <div id="icon"><img src="~/assets/ico/Manage_content.png"></div>
+                </div>
+            </a>
+
+        </div>
+        
+    </div>
+    <div class="row tab">
+        <div class="column">
+            <a href="@Url.Action("Index","Contents")">
+                <div class="card">
+                    Manage Content
+                    <div id="icon"><img src="~/assets/ico/Manage_content.png"></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+</div>

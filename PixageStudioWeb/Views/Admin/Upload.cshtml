@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "Upload";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <h5>Upload Images to your Genres Here</h5>
+
+        <form asp-controller="ImagePools" asp-action="UploadFile" method="post"
+              enctype="multipart/form-data">
+            <div class="form-group"><input type="file" name="file" accept="image/*" /></div>
+            <div class="form-group">
+                <h6>Select Category</h6>
+                <select name="Genre" class="form-control">
+                    @foreach (Category cat in ViewBag.Categories)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+
+
+                </select>
+            </div>
+            <div class="form-group"><button type="submit">Upload Image</button></div>
+
+        </form>
+        <form method="post" asp-action="UploadMultiple" asp-controller="ImagePools" enctype="multipart/form-data">
+            <div><input type="file" name="files" multiple /></div>
+            <div class="form-group">
+                <h6>Select Category</h6>
+                <select name="Genre" class="form-control">
+                    @foreach (Category cat in ViewBag.Categories)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+
+
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Upload" />
+            </div>
+        </form>
+        <form method="post" asp-action="UploadAboutPicture" asp-controller="ImagePools" enctype="multipart/form-data">
+            <div><input type="file" name="file" accept="image/*" /></div>
+            <div class="form-group">
+                <h6>Select Category</h6>
+                <select name="Genre" class="form-control">
+                    
+                        <option value="AboutUs">About Us</option>
+                    
+
+
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Upload" />
+            </div>
+        </form>
+    </div>
+
+</div>
+
+

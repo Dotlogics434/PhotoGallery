@@ -1,0 +1,70 @@
+﻿
+
+@{
+    ViewData["Title"] = "Images";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Plugin/style.css">
+<link rel="stylesheet" href="~/Plugin/ekko-lightbox.css">
+
+
+<div id="container">
+
+    @foreach (ImagePool item in ViewBag.Images)
+    {
+
+        <div class="grid">
+            <div class="imgholder">
+                <a href="~/images/@Html.DisplayFor(modelItem=> item.AltName )" data-toggle="lightbox" data-gallery="example-gallery" class="col-md-12">
+                    <img src="~/images/@Html.DisplayFor(modelItem=> item.AltName )" class="img-responsive">
+
+                </a>
+
+            </div>
+        </div>
+
+
+
+    }
+
+
+
+
+</div>
+
+@section scripts{
+    <script src="~/Plugin/blocksit.js"></script>
+    <script>
+        $(document).ready(function () {
+            //vendor script
+            $('#header')
+                .css({ 'top': -50 })
+                .delay(1000)
+                .animate({ 'top': 0 }, 800);
+
+            $('#footer')
+                .css({ 'bottom': -15 })
+                .delay(1000)
+                .animate({ 'bottom': 0 }, 800);
+
+            //generate blocks
+            var numOfClone = 20;
+            for (var i = 0; i < numOfClone; i++) {
+                var clone = $('#container').find('.block:first').clone();
+                clone.attr('id', 'clone-' + i);
+                clone.css('height', (Math.floor(Math.random() * 5) + 1) * 100);
+                clone.attr('data-size', Math.floor(Math.random() * 3) + 1);
+
+                $('#container').append(clone);
+            }
+
+            //blocksit define
+            $('#container').BlocksIt({
+                numOfCol: 7
+            });
+        });
+    </script>
+    <script src="~/Plugin/ekko-lightbox.js"></script>
+
+}

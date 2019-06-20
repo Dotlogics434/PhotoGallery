@@ -1,0 +1,67 @@
+﻿@model MultiModel
+<link rel="stylesheet" href="~/Plugin/css/login-signup-form.css">
+<style>
+ 
+  .cont_principal{
+      margin-top:100px;
+  }
+</style>
+<div class="cont_principal">
+
+    <div class="cont_centrar">
+        <div class="cont_login">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <form asp-action="Login" asp-controller="Account" method="post" style="margin:5px 5px 5px 5px">
+                <input type="hidden" asp-for="login.ReturnUrl" />
+                <div class="cont_tabs_login">
+                    <ul class='ul_tabs'>
+                        <li class="active">
+                            <a href="#" onclick="sign_in()">SIGN IN</a>
+                            <span class="linea_bajo_nom"></span>
+                        </li>
+                        <li>
+                            <a href="#up" id="sign-up" onclick="sign_up()">SIGN UP</a><span class="linea_bajo_nom"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cont_text_inputs">
+                    <input type="text" asp-for="login.FullName" class="input_form_sign " placeholder="NAME" name="name_us" />
+
+                    <input type="text" asp-for="login.Email" class="input_form_sign d_block active_inp" placeholder="EMAIL" name="emauil_us" />
+
+                    <input type="password" asp-for="login.Password" class="input_form_sign d_block  active_inp" placeholder="PASSWORD" name="pass_us" />
+                    <input type="password" asp-for="login.Password" class="input_form_sign" placeholder="CONFIRM PASSWORD" name="conf_pass_us" />
+
+                    <a href="#" class="link_forgot_pass d_block">Forgot Password ?</a>
+                    <div class="terms_and_cons d_none">
+                        <p><input type="checkbox" name="terms_and_cons" /> <label for="terms_and_cons">Accept  Terms and Conditions.</label></p>
+
+                    </div>
+                </div>
+                <div class="cont_btn">
+                    <button type="submit" id="sign-in"  class="btn_sign">SIGN IN</button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script type="text/javascript" src="~/Plugin/js/login-signup-form.js"></script>
+<script>
+    $(document).ready(function () {
+
+    $("#sign-up").click(function () {
+        $("form").attr("action", "/Account/Register");
+    });
+
+    $("#sign-in").click(function () {
+        $("form").attr("action", "/Account/Login");
+    });
+
+});
+</script>

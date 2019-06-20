@@ -1,0 +1,130 @@
+﻿@model MultiModel
+    @{
+    ViewData["Title"] = "Images";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <link rel="stylesheet" href="~/Plugin/style.css">
+    <link rel="stylesheet" href="~/Plugin/ekko-lightbox.css">
+
+
+    <div id="container">
+
+        @foreach (var item in Model.images)
+    {
+
+        <div class="grid">
+            <div class="imgholder">
+                <a href="~/images/@Html.DisplayFor(modelItem=> item.AltName )" data-toggle="lightbox" data-gallery="example-gallery" class="col-md-12">
+                    <img src="~/images/@Html.DisplayFor(modelItem=> item.AltName )" class="img-responsive">
+
+                </a>
+
+            </div>
+        </div>
+
+
+
+    }
+
+
+
+
+    </div>
+
+    @section scripts{
+        <script src="~/Plugin/blocksit.js"></script>
+        <script>
+        $(document).ready(function () {
+            //vendor script
+            $('#header')
+                .css({ 'top': -50 })
+                .delay(1000)
+                .animate({ 'top': 0 }, 800);
+
+            $('#footer')
+                .css({ 'bottom': -15 })
+                .delay(1000)
+                .animate({ 'bottom': 0 }, 800);
+
+            //generate blocks
+            var numOfClone = 20;
+            for (var i = 0; i < numOfClone; i++) {
+                var clone = $('#container').find('.block:first').clone();
+                clone.attr('id', 'clone-' + i);
+                clone.css('height', (Math.floor(Math.random() * 5) + 1) * 100);
+                clone.attr('data-size', Math.floor(Math.random() * 3) + 1);
+
+                $('#container').append(clone);
+            }
+
+            //blocksit define
+            $('#container').BlocksIt({
+                numOfCol: 7
+            });
+        });
+        </script>
+        <script src="~/Plugin/ekko-lightbox.js"></script>
+
+    }
+
+}
+<style>
+    ul {
+        padding: 0;
+        list-style: none;
+        background: #f2f2f2;
+    }
+
+        ul li {
+            display: inline-block;
+            position: relative;
+            line-height: 21px;
+            text-align: left;
+        }
+
+            ul li a {
+                display: block;
+                padding: 8px 25px;
+                color: #333;
+                text-decoration: none;
+            }
+
+                ul li a:hover {
+                    color: #fff;
+                    background: #939393;
+                }
+
+            ul li ul.dropdown {
+                min-width: 100%; /* Set width of the dropdown */
+                background: #f2f2f2;
+                display: none;
+                position: absolute;
+                z-index: 999;
+                left: 0;
+            }
+
+            ul li:hover ul.dropdown {
+                display: block; /* Display the dropdown */
+            }
+
+            ul li ul.dropdown li {
+                display: block;
+            }
+
+    .navbar {
+        margin-top: 60px;
+    }
+
+
+
+
+    .nav {
+        margin-top: 0px;
+        align-self: flex-end;
+    }
+
+    .footer {
+        align-self: center;
+    }
+</style>

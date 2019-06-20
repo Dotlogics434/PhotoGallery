@@ -1,0 +1,60 @@
+﻿@using PixageStudioWeb.Data
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+   
+}
+
+<style>
+    .image-set{
+        max-width:150px;
+        max-height:150px;
+        min-height:150px;
+        min-width:150px;
+    }
+</style>
+
+<p>
+  
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Image Name
+            </th>
+
+            <th>
+                Genre
+            </th>
+            <th>Image</th>
+            <th>About Pic</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (ImagePool item in ViewBag.ImageList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltName)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td >
+                <img src="~/images/@Html.DisplayFor(modelItem => item.AltName)" alt="image" class="image-set" />
+            </td>
+
+            <td>
+
+                |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="SetAboutPicture" asp-route-id="@item.Id">Set About Picture</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

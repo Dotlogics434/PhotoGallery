@@ -1,0 +1,67 @@
+﻿
+<style>
+
+#header-style{
+        margin-top:60px;
+    }
+    ul{
+        padding: 0;
+        list-style: none;
+       
+    }
+    ul li{
+        display: inline-block;
+        position: relative;
+        line-height: 21px;
+        text-align: left;
+    }
+    ul li a{
+        display: block;
+        padding: 8px 25px;
+        color: #333;
+        text-decoration: none;
+    }
+    ul li a:hover{
+        color: #fff;
+        background: #939393;
+    }
+    ul li ul.dropdown{
+        min-width: 100%; /* Set width of the dropdown */
+        background: #f2f2f2;
+        display: none;
+        position: absolute;
+        z-index: 999;
+        left: 0;
+    }
+    ul li:hover ul.dropdown{
+        display: block; /* Display the dropdown */
+    }
+    ul li ul.dropdown li{
+        display: block;
+    }
+</style>
+<nav class="col-md-12" id="header-style">
+   
+
+        <ul>
+            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Portfolio
+                  
+                </a>
+              
+                    <ul class="dropdown">
+                        @foreach (Category item in ViewBag.Category)
+                        {
+                            <li style="width:100%;"><a href="@Url.Action("GetGenre", "Pages", new { id=item.Id})">@item.Name</a></li>
+                        }
+                    </ul>
+                
+
+            </li>
+            <li><a href="@Url.Action("About", "Home")">About Us</a></li>
+            <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
+        </ul>
+  
+</nav>
