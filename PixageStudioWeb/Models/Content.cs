@@ -12,8 +12,8 @@ namespace PixageStudioWeb.Models
         public string Title { get; set; }
         public string Data { get; set; }
         public string Category { get; set; }
-        public string FontName { get; set; }
-        public string FontSize { get; set; }
+        public bool Status { get; set; }
+  
         [ForeignKey("ImageId")]
         public int ImageId { get; set; }
         public virtual ImagePool ImagePool { get; set; }

@@ -14,6 +14,10 @@ namespace PixageStudioWeb.Models
         public string AltName { get; set; }
         [DisplayName("Path")]
         public string ImagePath { get; set; }
-        public string Genre { get; set; }
+        [DisplayName("Status")]
+        public bool Status { get; set; }
+        [ForeignKey("Category")]
+        public int? CategoryId { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

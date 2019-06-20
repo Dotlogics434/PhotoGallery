@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,19 +16,22 @@ using PixageStudioWeb.Models;
 
 namespace PixageStudioWeb.Controllers
 {
+    //[Authorize(Roles="Administrator, Editor")]
     public class ImagePoolsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ImagePoolsController(ApplicationDbContext context)
+        private readonly IHostingEnvironment _he;
+        public ImagePoolsController(ApplicationDbContext context, IHostingEnvironment he)
         {
+            _he = he;
             _context = context;
         }
 
         // GET: ImagePools
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ImagePool.ToListAsync());
+            ViewBag.ImageList = await _context.ImagePools.OrderBy(x=>x.CategoryId).OrderBy(x=>x.AltName).ToListAsync();
+            return View();
         }
 
 
@@ -37,7 +44,7 @@ namespace PixageStudioWeb.Controllers
                 return NotFound();
             }
 
-            var imagePool = await _context.ImagePool
+            var imagePool = await _context.ImagePools
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (imagePool == null)
             {
@@ -46,16 +53,57 @@ namespace PixageStudioWeb.Controllers
 
             return View(imagePool);
         }
+        public ActionResult SetAboutPicture(int id, ImagePool imagePool)
+        {
+            if (id != imagePool.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if(imagePool.Status==false)
+                    {
+                        imagePool.Status = true;
+                      
+                        
+                    }
+                    else
+                    {
+                        imagePool.Status = false;
+                    }
+
+                    _context.Update(imagePool);
+                   
+                     _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ImagePoolExists(imagePool.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(imagePool);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, int genre)
         {
             ImagePool Images = new ImagePool();
             if (file == null || file.Length == 0)
                 return Content("file not selected");
 
             var path = Path.Combine(Directory.GetCurrentDirectory(),
-                                    "wwwroot/Uploads",
+                                    "wwwroot/Images",
                                     file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
@@ -63,31 +111,43 @@ namespace PixageStudioWeb.Controllers
                 await file.CopyToAsync(stream);
                 Images.AltName = file.FileName;
                 Images.ImagePath = path;
+                Images.CategoryId = genre;
                 _context.Add(Images);
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Upload", "Admin");
         }
-
-        public async Task<IActionResult> Download(string filename)
+        [HttpPost]
+        public async Task<IActionResult> UploadMultiple(ICollection<IFormFile> files, int genre)
         {
-            if (filename == null)
-                return Content("filename not present");
+            
+            
+            foreach (var file in files)
 
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot/Uploads", filename);
-
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
             {
-                await stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
-        }
+                ImagePool Images = new ImagePool();
 
+                var path = Path.Combine(Directory.GetCurrentDirectory(),
+                                    "wwwroot/Images",
+                                    file.FileName);
+                if (file.Length > 0)
+                {
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                        Images.AltName = file.FileName;
+                        Images.ImagePath = path;
+                        Images.CategoryId = genre;
+                        _context.Add(Images);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+           
+            return RedirectToAction("Upload", "Admin");
+        }
+        
         private string GetContentType(string path)
         {
             throw new NotImplementedException();
@@ -123,7 +183,7 @@ namespace PixageStudioWeb.Controllers
                 return NotFound();
             }
 
-            var imagePool = await _context.ImagePool.FindAsync(id);
+            var imagePool = await _context.ImagePools.FindAsync(id);
             if (imagePool == null)
             {
                 return NotFound();
@@ -136,7 +196,7 @@ namespace PixageStudioWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AltName,ImgData,Genre")] ImagePool imagePool)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AltName,ImgData,Genre,Status")] ImagePool imagePool)
         {
             if (id != imagePool.Id)
             {
@@ -147,6 +207,7 @@ namespace PixageStudioWeb.Controllers
             {
                 try
                 {
+                   
                     _context.Update(imagePool);
                     await _context.SaveChangesAsync();
                 }
@@ -174,7 +235,7 @@ namespace PixageStudioWeb.Controllers
                 return NotFound();
             }
 
-            var imagePool = await _context.ImagePool
+            var imagePool = await _context.ImagePools
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (imagePool == null)
             {
@@ -189,15 +250,27 @@ namespace PixageStudioWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var imagePool = await _context.ImagePool.FindAsync(id);
-            _context.ImagePool.Remove(imagePool);
+            ViewBag.deleteSuccess = "false";
+
+            var imagePool = await _context.ImagePools
+               .FirstOrDefaultAsync(m => m.Id == id);
+            var fullPath = imagePool.ImagePath.ToString();
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+                ViewBag.deleteSuccess = "true";
+            }
+            var imagePools = await _context.ImagePools.FindAsync(id);
+            _context.ImagePools.Remove(imagePools);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
 
         private bool ImagePoolExists(int id)
         {
-            return _context.ImagePool.Any(e => e.Id == id);
+            return _context.ImagePools.Any(e => e.Id == id);
         }
     }
 }

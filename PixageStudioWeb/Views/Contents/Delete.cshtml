@@ -1,7 +1,9 @@
-﻿@model PixageStudioWeb.Models.Content
+﻿
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Content content = new Content();
 }
 
 <h2>Delete</h2>
@@ -12,39 +14,26 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            Title
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @content.Title
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Data)
+            @content.Data
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Data)
-        </dd>
+      
         <dt>
-            @Html.DisplayNameFor(model => model.Category)
+            Category
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Category)
+            @content.Category
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FontName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FontName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FontSize)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FontSize)
-        </dd>
+       
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="@content.Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

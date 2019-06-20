@@ -6,9 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_LayoutAdmin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_LayoutAdmin.cshtml" />
     <None Include="wwwroot\assets\svg\icons.svg" />
     <None Include="wwwroot\assets\svg\video-icon-dark.svg" />
     <None Include="wwwroot\assets\svg\video-icon.svg" />
+    <None Include="wwwroot\Plugin\js\jquery.waterwheelCarousel.js" />
+    <None Include="wwwroot\Plugin\js\jquery.waterwheelCarousel.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +25,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Uploads\" />
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Identity\Pages\Account\Login.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Account\Login.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\_PortfolioPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Pages\WildLife.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

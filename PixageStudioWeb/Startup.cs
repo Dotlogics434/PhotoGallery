@@ -12,9 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using PixageStudioWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PixageStudioWeb.Services;
 using PixageStudioWeb.Models;
-using PixageStudioWeb.Filters;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PixageStudioWeb
 {
@@ -40,13 +39,22 @@ namespace PixageStudioWeb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-         //services.AddDefaultIdentity<IdentityUser>();
-         services.AddIdentity<IdentityUser, ApplicationRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<IdentityUser>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.Cookie.Name = "Cookie";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(720);
+                options.LoginPath = "/Account/Login";
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddMvc(options => options.Filters.Add(typeof(DynamicAuthorizationFilter)));
-            services.AddSingleton<IMvcControllerDiscovery, MvcControllerDiscovery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +82,7 @@ namespace PixageStudioWeb
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                
             });
         }
     }

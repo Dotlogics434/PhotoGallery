@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using PixageStudioWeb.Models;
 
 namespace PixageStudioWeb.Controllers
 {
+   // [Authorize(Roles="Administrator, Editor")]
     public class ContentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +24,9 @@ namespace PixageStudioWeb.Controllers
         // GET: Contents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Content.ToListAsync());
+            ViewBag.Category = await _context.Categories.Where(x => x.Name != "Homepage").OrderBy(x => x.Name).ToListAsync(); 
+            ViewBag.Content = await _context.Content.ToListAsync();
+            return View();
         }
 
         // GET: Contents/Details/5

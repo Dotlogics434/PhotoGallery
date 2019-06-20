@@ -1,7 +1,42 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+    <link rel="stylesheet" href="~/Plugin/css/login.css">
+<style>
+    #about-image
+    {
+        margin-top:auto;
+        border: 3px solid black;
+        min-height:300px;
+        min-width:200px;
+        max-height:300px;
+        max-width:200px;
+    }
+    .about-content{
+        margin-top:auto;
+        border: 3px solid black;
+        min-height:300px;
+    }
+</style>
+<div class="container">
+    <div class="col-md-3 about-image">
+        @foreach(ImagePool item in ViewBag.AboutImage)
+        {
+            <img src="~/images/@item.AltName" id="about-image">
+        }
+        @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+        {
+        <form asp-controller="ImagePools" asp-action="UploadAbout" method="post"
+              enctype="multipart/form-data">
+            <div class="form-group"><input type="file" name="file" accept="image/*" /></div>
+            
+            <div class="form-group"><button class="btn btn-primary" type="submit">Upload</button></div>
 
-<p>Use this area to provide additional information.</p>
+        </form>
+        }
+    </div>
+    <div class="about-content col-md-7">
+
+    </div>
+    <div class="container"></div>
+</div>

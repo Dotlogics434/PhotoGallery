@@ -1,44 +1,40 @@
-﻿@model PixageStudioWeb.Models.Content
+﻿
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Content cont = new Content();
 }
-
-<h2>Create</h2>
-
-<h4>Content</h4>
+<style>
+    textarea{
+        resize:none;
+        
+    }
+    </style>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="@cont.Title" class="control-label"></label>
+                <input asp-for="@cont.Title" class="form-control" />
+                <span asp-validation-for="@cont.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
+                <label asp-for="@cont.Category" class="control-label"></label>
+                <input asp-for="@cont.Category" class="form-control" />
+                <span asp-validation-for="@cont.Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+                <label asp-for="@cont.Data" class="control-label"></label>
+                <textarea asp-for="@cont.Data" rows="10" class="form-control" ></textarea>
+                <span asp-validation-for="@cont.Data" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
-                <label asp-for="FontName" class="control-label"></label>
-                <input asp-for="FontName" class="form-control" />
-                <span asp-validation-for="FontName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FontSize" class="control-label"></label>
-                <input asp-for="FontSize" class="form-control" />
-                <span asp-validation-for="FontSize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
