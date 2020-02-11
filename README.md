@@ -6,3 +6,4 @@ Features:
 4.   Uses Identity framework(customized) to store user credentials.
 5.   Multi user Multirole based authentication system. 
 6.   Saparate and centralised Admin Dashboard for admin related tasks. 
+7.   Lightbox for displaying Image Gallery Images
